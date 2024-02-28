@@ -1,0 +1,26 @@
+{
+  "name": "v3-arco-admin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "pinia": "^2.1.7",
+    "vue": "^3.4.20",
+    "vue-router": "4"
+  },
+  "devDependencies": {
+    "@arco-design/web-vue": "^2.54.5",
+    "@arco-plugins/vite-vue": "^1.4.5",
+    "@iconify-json/carbon": "^1.1.30",
+    "@unocss/preset-icons": "^0.58.5",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "less": "^4.2.0",
+    "unocss": "^0.58.5",
+    "vite": "^5.1.4"
+  }
+}
