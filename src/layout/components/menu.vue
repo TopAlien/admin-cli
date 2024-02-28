@@ -49,5 +49,13 @@ const menus = [
 .cus_menu {
   width: @menu-width;
   height: calc(100vh - @header-height);
+
+  & .arco-menu-inner {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
 </style>
