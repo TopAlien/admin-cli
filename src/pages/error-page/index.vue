@@ -1,10 +1,45 @@
 <script setup>
-  import { ref } from 'vue'
-  const columns = [{ no: '集合编号' }, { name: '集合名称' }, { type: '内容体裁' }, { fs: '筛选方式' }]
+  const fsEnum = {
+    all: { text: '全部', status: 'normal' },
+    open: {
+      text: '未解决',
+      status: 'danger'
+    },
+    closed: {
+      text: '已解决',
+      status: 'success'
+    },
+    processing: {
+      text: '解决中',
+      status: 'processing'
+    }
+  }
 
-  const form = ref({ name: 'ealien' })
-  const handleLoadData = (pagination) => {
-    console.log(form.value)
+  const columns = [
+    { no: '集合编号' },
+    { name: '集合名称' },
+    { type: { title: '内容体裁', filter: true } },
+    {
+      fs: {
+        title: '筛选方式',
+        filter: true,
+        valueType: 'select',
+        initialValue: 'closed',
+        slotName: 'fsSlot',
+        valueEnum: fsEnum
+      }
+    },
+    {
+      extr: {
+        hideInTable: true,
+        title: '测试隐藏',
+        filter: true
+      }
+    }
+  ]
+
+  const handleLoadData = (pagination, params) => {
+    console.log(params)
     console.log(pagination)
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -14,14 +49,14 @@
             no: '啊啥的卡上的哈哈',
             name: 'ashdasd',
             type: '图片',
-            fs: '全局'
+            fs: 'all'
           },
           {
             id: 2,
             no: '啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈',
             name: 'ashdasd',
             type: '图片',
-            fs: '全局'
+            fs: 'closed'
           }
         ])
       }, 500)
@@ -31,24 +66,16 @@
 
 <template>
   <pro-table
-    v-model:params="form"
+    :request="handleLoadData"
     :columns="columns"
-    :load="handleLoadData"
   >
-    <template #filter>
-      <a-form-item
-        label="姓名"
-        field="name"
-      >
-        <a-input v-model="form.name" />
-      </a-form-item>
-      <a-form-item
-        label="年龄"
-        field="age"
-      >
-        <a-input v-model="form.age" />
-      </a-form-item>
+    <template #fsSlot="{ record }">
+      <a-badge
+        :status="fsEnum[record.fs].status"
+        :text="fsEnum[record.fs].text"
+      />
     </template>
+
     <template #extraL>
       <a-button type="primary">新建</a-button>
     </template>

@@ -1,7 +1,7 @@
 <script setup>
-  import { computed, ref } from 'vue'
+  import { ref } from 'vue'
   import SearchBox from '../SearchBox/index.vue'
-  import { setTableColumn } from '@/utils/table.js'
+  import { getColumns, getHasInitialValueForm, useTable } from '@/utils/table.js'
 
   const slots = defineSlots()
 
@@ -10,64 +10,60 @@
       type: Array,
       default: () => []
     },
-    load: {
+    request: {
       type: Function
-    },
-    params: {
-      type: Object,
-      default: () => {}
     }
   })
-  const columns = computed(() => setTableColumn(props.columns))
 
-  const loading = ref(false)
-  const list = ref([])
-  const pagination = ref({ current: 1, pageSize: 10, total: 0 })
+  const [tableColumns, queryFormColumn] = getColumns(props.columns)
 
-  const tableLoad = async () => {
-    loading.value = true
-
-    try {
-      list.value = await (props.load && props.load(pagination.value))
-    } finally {
-      loading.value = false
-    }
-
-    pagination.value.total = 200000
-  }
-
-  const handlePageChange = (current) => {
-    pagination.value.current = current
-    tableLoad()
-  }
-
-  const handlePageSize = (pageSize) => {
-    pagination.value.current = 1
-    pagination.value.pageSize = pageSize
-
-    tableLoad()
-  }
-
-  tableLoad()
+  const queryForm = ref(getHasInitialValueForm(queryFormColumn))
 
   const formRef = ref(null)
-  const handleReset = () => {
-    formRef.value && formRef.value.resetFields()
-    handlePageSize(pagination.value.pageSize)
-  }
+
+  const { loading, list, pagination, handleReset, handlePageChange, handlePageSize } = useTable({
+    request: props.request,
+    formRef,
+    queryForm
+  })
 </script>
 
 <template>
   <SearchBox
-    v-if="slots.filter"
+    v-if="queryFormColumn.length"
     @search="handlePageSize(pagination.pageSize)"
     @reset="handleReset"
   >
     <a-form
       ref="formRef"
-      :model="props.params"
+      :model="queryForm"
     >
-      <slot name="filter" />
+      <a-form-item
+        v-for="item in queryFormColumn"
+        :key="item.dataIndex"
+        :label="item.filterLabel || item.title"
+        :field="item.filterField || item.dataIndex"
+      >
+        <!--  input  -->
+        <a-input
+          v-if="!item.valueType || item.valueType === 'input'"
+          v-model="queryForm[item.filterField || item.dataIndex]"
+          :placeholder="`请输入${item.filterLabel || item.title}`"
+        />
+
+        <!--  select  -->
+        <a-select
+          v-if="item.valueType === 'select'"
+          v-model="queryForm[item.filterField || item.dataIndex]"
+          :placeholder="`请选择${item.filterLabel || item.title}`"
+        >
+          <a-option
+            v-for="(value, key) in item.valueEnum"
+            :value="key"
+            :label="value.text"
+          />
+        </a-select>
+      </a-form-item>
     </a-form>
   </SearchBox>
 
@@ -97,25 +93,21 @@
           }
         : false
     "
-    :columns="columns"
+    :columns="tableColumns"
     @page-change="handlePageChange"
     @page-size-change="handlePageSize"
   >
     <template
       v-for="(_, key, i) in slots"
       :key="i"
-      v-slot:[key]="{ text, title, record, index, column, filtered, indent, expanded }"
+      v-slot:[key]="{ record, rowIndex, column, expanded }"
     >
       <slot
         :name="key"
         v-bind="{
-          text,
-          title,
           record,
-          index,
+          rowIndex,
           column,
-          filtered,
-          indent,
           expanded
         }"
       />
