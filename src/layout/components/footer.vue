@@ -3,9 +3,9 @@
 </template>
 
 <style lang="less">
-.footer_box {
-  height: @footer-height;
-  line-height: @footer-height;
-  text-align: center;
-}
+  .footer_box {
+    height: @footer-height;
+    line-height: @footer-height;
+    text-align: center;
+  }
 </style>

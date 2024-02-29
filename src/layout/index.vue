@@ -1,7 +1,7 @@
 <script setup>
-import Menu from "./components/menu.vue";
-import Header from "./components/header.vue";
-import Footer from "./components/footer.vue";
+  import Menu from './components/menu.vue'
+  import Header from './components/header.vue'
+  import Footer from './components/footer.vue'
 </script>
 
 <template>
@@ -22,19 +22,19 @@ import Footer from "./components/footer.vue";
 </template>
 
 <style lang="less">
-.content {
-  background-color: var(--color-fill-2);
-  padding: 12px 12px 0;
-  box-sizing: border-box;
-  overflow: hidden;
-}
+  .content {
+    background-color: var(--color-fill-2);
+    padding: 12px 12px 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
 
-.content_scroll {
-  height: calc(100vh - @header-height - @footer-height - 12px);
-  padding: 12px;
-  overflow: auto;
-  box-sizing: border-box;
-  background-color: white;
-  border-radius: 4px;
-}
+  .content_scroll {
+    height: calc(100vh - @header-height - @footer-height - 12px);
+    padding: 12px;
+    overflow: auto;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 4px;
+  }
 </style>
