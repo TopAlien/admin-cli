@@ -101,14 +101,12 @@ const columns = [
 | 字段           | 类型                                                                            | 说明                              | 默认值   |
 |--------------|-------------------------------------------------------------------------------|---------------------------------|-------|
 | ...          |                                                                               | 除了原本colum配置新增如下                 |       |
-| hideInTable  | boolean                                                                       | 是否隐藏于表格中（只用作标案查询）               | false |
+| hideInTable  | boolean                                                                       | 在 Table 中不展示此列              | false |
 | search       | boolean                                                                       | 是否处理为搜索项                        | false |
 | initialValue |                                                                               | 搜索项的表单初始值）                      |       |
-| filterLabel  | string                                                                        | 可替换搜索名称（于表格名称不一致时覆盖表格名称title）   |       |
-| filterField  |                                                                               | 搜索项绑定字段（默认取dataIndex）           | false |
+| fieldProps  | object                                                                        | 查询表单的 props，会透传给表单项，如果渲染出来是 Input，就支持 Input 的所有 props，同理如果是 select，也支持 select 的所有 props。也支持方法传入   |       |
 | valueType    | enum                                                                          | select \| input \| range-picker | input |
 | valueEnum  | interface ValueEnum { [key: string]: { text: string 字段名必须为text, status: '' }; | ）               |  |
-
 
 ### ProTable基本用法
 

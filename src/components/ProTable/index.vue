@@ -54,21 +54,23 @@
           :key="item.dataIndex"
         >
           <a-form-item
-            :label="item.filterLabel || item.title"
-            :field="item.filterField || item.dataIndex"
+            :label="item.title"
+            :field="item.dataIndex"
           >
             <!--  input  -->
             <a-input
               v-if="!item.valueType || item.valueType === 'input'"
-              v-model="queryForm[item.filterField || item.dataIndex]"
-              :placeholder="`请输入${item.filterLabel || item.title}`"
+              v-model="queryForm[item.dataIndex]"
+              v-bind="item.fieldProps"
+              :placeholder="`请输入${item.title}`"
             />
 
             <!--  select  -->
             <a-select
               v-if="item.valueType === 'select'"
-              v-model="queryForm[item.filterField || item.dataIndex]"
-              :placeholder="`请选择${item.filterLabel || item.title}`"
+              v-model="queryForm[item.dataIndex]"
+              v-bind="item.fieldProps"
+              :placeholder="`请选择${item.title}`"
             >
               <a-option
                 v-for="(value, key) in item.valueEnum"
@@ -80,7 +82,8 @@
             <a-range-picker
               v-if="item.valueType === 'range-picker'"
               disabled-input
-              v-model="queryForm[item.filterField || item.dataIndex]"
+              v-model="queryForm[item.dataIndex]"
+              v-bind="item.fieldProps"
             />
           </a-form-item>
         </a-col>

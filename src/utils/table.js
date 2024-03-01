@@ -11,9 +11,8 @@ import { ref, toValue } from 'vue'
  *
  *   hideInTable: boolean || false
  *   search: boolean || false 是否处理为搜索项
+ *   fieldProps: {}
  *   initialValue: null
- *   filterLabel: null
- *   filterField: null
  *   valueType: 'select' | 'input' || 'input'
  *
  *   valueEnum: interface ValueEnum {
@@ -66,7 +65,7 @@ export const getHasInitialValueForm = (columns) => {
   const initialValueForm = {}
   columns.forEach((item) => {
     if (item.initialValue) {
-      initialValueForm[item.filterField || item.dataIndex] = item.initialValue
+      initialValueForm[item.dataIndex] = item.initialValue
     }
   })
   return initialValueForm
