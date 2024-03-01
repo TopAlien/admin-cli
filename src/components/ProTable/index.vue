@@ -37,33 +37,48 @@
     <a-form
       ref="formRef"
       :model="queryForm"
+      layout="inline"
+      :label-col="{ style: { width: '75px' } }"
+      :wrapper-col-props="{ span: 18 }"
     >
-      <a-form-item
-        v-for="item in queryFormColumn"
-        :key="item.dataIndex"
-        :label="item.filterLabel || item.title"
-        :field="item.filterField || item.dataIndex"
-      >
-        <!--  input  -->
-        <a-input
-          v-if="!item.valueType || item.valueType === 'input'"
-          v-model="queryForm[item.filterField || item.dataIndex]"
-          :placeholder="`请输入${item.filterLabel || item.title}`"
-        />
-
-        <!--  select  -->
-        <a-select
-          v-if="item.valueType === 'select'"
-          v-model="queryForm[item.filterField || item.dataIndex]"
-          :placeholder="`请选择${item.filterLabel || item.title}`"
+      <a-row :gutter="16">
+        <a-col
+          :span="8"
+          v-for="item in queryFormColumn"
+          :key="item.dataIndex"
         >
-          <a-option
-            v-for="(value, key) in item.valueEnum"
-            :value="key"
-            :label="value.text"
-          />
-        </a-select>
-      </a-form-item>
+          <a-form-item
+            :label="item.filterLabel || item.title"
+            :field="item.filterField || item.dataIndex"
+          >
+            <!--  input  -->
+            <a-input
+              v-if="!item.valueType || item.valueType === 'input'"
+              v-model="queryForm[item.filterField || item.dataIndex]"
+              :placeholder="`请输入${item.filterLabel || item.title}`"
+            />
+
+            <!--  select  -->
+            <a-select
+              v-if="item.valueType === 'select'"
+              v-model="queryForm[item.filterField || item.dataIndex]"
+              :placeholder="`请选择${item.filterLabel || item.title}`"
+            >
+              <a-option
+                v-for="(value, key) in item.valueEnum"
+                :value="key"
+                :label="value.text"
+              />
+            </a-select>
+
+            <a-range-picker
+              v-if="item.valueType === 'range-picker'"
+              disabled-input
+              v-model="queryForm[item.filterField || item.dataIndex]"
+            />
+          </a-form-item>
+        </a-col>
+      </a-row>
     </a-form>
   </SearchBox>
 

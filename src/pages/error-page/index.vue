@@ -17,7 +17,7 @@
 
   const columns = [
     { no: '集合编号' },
-    { name: '集合名称' },
+    { name: { title: '集合名称', filter: true, valueType: 'range-picker' } },
     { type: { title: '内容体裁', filter: true } },
     {
       fs: {
