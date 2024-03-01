@@ -10,7 +10,7 @@ import { ref, toValue } from 'vue'
  *   ])
  *
  *   hideInTable: boolean || false
- *   filter: boolean || false 是否处理为搜索项
+ *   search: boolean || false 是否处理为搜索项
  *   initialValue: null
  *   filterLabel: null
  *   filterField: null
@@ -57,7 +57,7 @@ const setTableColumn = (simpleArr = []) => {
 export const getColumns = (columns) => {
   const columnsAll = setTableColumn(columns)
   const tableColumns = columnsAll.filter((item) => !item.hideInTable)
-  const queryFormColumn = columnsAll.filter((item) => item.filter)
+  const queryFormColumn = columnsAll.filter((item) => item.search)
 
   return [tableColumns, queryFormColumn, columnsAll]
 }
@@ -77,7 +77,7 @@ export const useTable = ({ request, queryForm, formRef }) => {
   const list = ref([])
   const pagination = ref({ current: 1, pageSize: 10, total: 0 })
 
-  const tableLoad = async () => {
+  const loadData = async () => {
     loading.value = true
 
     try {
@@ -89,24 +89,24 @@ export const useTable = ({ request, queryForm, formRef }) => {
     pagination.value.total = 200000
   }
 
-  const handlePageChange = (current) => {
+  const pageChange = (current) => {
     pagination.value.current = current
-    tableLoad()
+    loadData()
   }
 
-  const handlePageSize = (pageSize) => {
+  const reload = (pageSize) => {
     pagination.value.current = 1
-    pagination.value.pageSize = pageSize
+    pagination.value.pageSize = pageSize || pagination.value.pageSize
 
-    tableLoad()
+    loadData()
   }
 
-  const handleReset = () => {
+  const reset = () => {
     formRef.value && formRef.value.resetFields()
-    handlePageSize(pagination.value.pageSize)
+    reload()
   }
 
-  tableLoad()
+  loadData()
 
-  return { loading, list, pagination, tableLoad, handleReset, handlePageChange, handlePageSize }
+  return { loading, list, pagination, loadData, reset, pageChange, reload }
 }

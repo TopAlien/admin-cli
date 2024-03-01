@@ -15,24 +15,30 @@
     }
   })
 
-  const [tableColumns, queryFormColumn] = getColumns(props.columns)
+  const [tableColumns, queryFormColumns] = getColumns(props.columns)
 
-  const queryForm = ref(getHasInitialValueForm(queryFormColumn))
+  const queryForm = ref(getHasInitialValueForm(queryFormColumns))
 
   const formRef = ref(null)
 
-  const { loading, list, pagination, handleReset, handlePageChange, handlePageSize } = useTable({
+  const { loading, list, pagination, reset, pageChange, reload } = useTable({
     request: props.request,
     formRef,
     queryForm
+  })
+
+  defineExpose({
+    reset,
+    reload
   })
 </script>
 
 <template>
   <SearchBox
-    v-if="queryFormColumn.length"
-    @search="handlePageSize(pagination.pageSize)"
-    @reset="handleReset"
+    v-if="queryFormColumns.length"
+    :title="$attrs.title"
+    @search="reload"
+    @reset="reset"
   >
     <a-form
       ref="formRef"
@@ -44,7 +50,7 @@
       <a-row :gutter="16">
         <a-col
           :span="8"
-          v-for="item in queryFormColumn"
+          v-for="item in queryFormColumns"
           :key="item.dataIndex"
         >
           <a-form-item
@@ -109,12 +115,12 @@
         : false
     "
     :columns="tableColumns"
-    @page-change="handlePageChange"
-    @page-size-change="handlePageSize"
+    @page-change="pageChange"
+    @page-size-change="reload"
   >
     <template
-      v-for="(_, key, i) in slots"
-      :key="i"
+      v-for="(_, key) in slots"
+      :key="key"
       v-slot:[key]="{ record, rowIndex, column, expanded }"
     >
       <slot

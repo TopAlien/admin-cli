@@ -1,4 +1,6 @@
 <script setup>
+  import { ref } from 'vue'
+
   const fsEnum = {
     all: { text: '全部', status: 'normal' },
     open: {
@@ -17,12 +19,12 @@
 
   const columns = [
     { no: '集合编号' },
-    { name: { title: '集合名称', filter: true, valueType: 'range-picker' } },
-    { type: { title: '内容体裁', filter: true } },
+    { name: { title: '集合名称', search: true, valueType: 'range-picker' } },
+    { type: { title: '内容体裁', search: true } },
     {
       fs: {
         title: '筛选方式',
-        filter: true,
+        search: true,
         valueType: 'select',
         initialValue: 'closed',
         slotName: 'fsSlot',
@@ -33,12 +35,12 @@
       extr: {
         hideInTable: true,
         title: '测试隐藏',
-        filter: true
+        search: true
       }
     }
   ]
 
-  const handleLoadData = (pagination, params) => {
+  const loadData = (pagination, params) => {
     console.log(params)
     console.log(pagination)
     return new Promise((resolve) => {
@@ -62,11 +64,14 @@
       }, 500)
     })
   }
+
+  const actionRef = ref()
 </script>
 
 <template>
   <pro-table
-    :request="handleLoadData"
+    ref="actionRef"
+    :request="loadData"
     :columns="columns"
   >
     <template #fsSlot="{ record }">
@@ -80,7 +85,7 @@
       <a-button type="primary">新建</a-button>
     </template>
     <template #extraR>
-      <a-button>导出</a-button>
+      <a-button @click="actionRef.reload()">手动刷新</a-button>
     </template>
   </pro-table>
 </template>
