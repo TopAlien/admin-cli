@@ -21,11 +21,7 @@
 
   const formRef = ref(null)
 
-  const { loading, list, pagination, reset, pageChange, reload } = useTable({
-    request: props.request,
-    formRef,
-    queryForm
-  })
+  const { loading, list, pagination, pageChange, reload, reset } = useTable(props.request, { formRef, queryForm })
 
   defineExpose({
     reset,

@@ -64,14 +64,15 @@ export const getColumns = (columns) => {
 export const getHasInitialValueForm = (columns) => {
   const initialValueForm = {}
   columns.forEach((item) => {
-    if (item.initialValue) {
+    // null undefined '' 为true
+    if (item.initialValue ?? '' !== '') {
       initialValueForm[item.dataIndex] = item.initialValue
     }
   })
   return initialValueForm
 }
 
-export const useTable = ({ request, queryForm, formRef }) => {
+export const useTable = (request, { queryForm, formRef }) => {
   const loading = ref(false)
   const list = ref([])
   const pagination = ref({ current: 1, pageSize: 10, total: 0 })
