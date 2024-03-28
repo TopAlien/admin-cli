@@ -1,5 +1,11 @@
+<script setup>
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
+</script>
+
 <template>
-  <div class="header_box">header</div>
+  <div class="header_box">{{ t('header') }}</div>
 </template>
 
 <style lang="less">

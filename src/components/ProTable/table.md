@@ -119,13 +119,7 @@ const columns = [
 
 ### ProTable手动刷新
 ```vue
-const actionRef = ref()
-
-/// 分页和表单项都重置
-actionRef.reset()
-
-/// 分页重置，表单项不重置
-actionRef.reload()
+{{ t('constActionrefRefActionrefresetActionrefreload') }}
 
 <pro-table 
   ref="actionRef"

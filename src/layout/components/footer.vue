@@ -1,5 +1,11 @@
+<script setup>
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
+</script>
+
 <template>
-  <div class="footer_box">哇咔咔出品</div>
+  <div class="footer_box">{{ t('key10') }}</div>
 </template>
 
 <style lang="less">

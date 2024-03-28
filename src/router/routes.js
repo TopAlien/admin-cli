@@ -10,6 +10,14 @@ export const BASE_ROUTE = [
     }
   },
   {
+    path: '/postmessage',
+    name: 'PostMessage',
+    component: () => import('@/pages/postmessage.vue'),
+    meta: {
+      title: 'postmessage'
+    }
+  },
+  {
     path: '/:path(.*)*',
     name: '404-page',
     component: Layout,

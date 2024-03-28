@@ -1,4 +1,8 @@
 <script setup>
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
+
   const emit = defineEmits(['search', 'reset'])
   const slots = defineSlots()
 
@@ -42,13 +46,13 @@
           <template #icon>
             <i class="i-carbon-search inline-block v-sub" />
           </template>
-          查询
+          {{ t('key8') }}
         </a-button>
         <a-button @click="handleReset">
           <template #icon>
             <i class="i-carbon-reset inline-block v-sub" />
           </template>
-          重置
+          {{ t('key7') }}
         </a-button>
       </a-space>
     </div>

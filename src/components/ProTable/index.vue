@@ -1,7 +1,10 @@
 <script setup>
   import { ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
   import SearchBox from '../SearchBox/index.vue'
   import { getColumns, getHasInitialValueForm, useTable } from '@/utils/table.js'
+
+  const { t } = useI18n()
 
   const slots = defineSlots()
 
@@ -58,7 +61,7 @@
               v-if="!item.valueType || item.valueType === 'input'"
               v-model="queryForm[item.dataIndex]"
               v-bind="item.fieldProps"
-              :placeholder="`请输入${item.title}`"
+              :placeholder="t('qing-shu-ru-itemtitle', [item.title])"
             />
 
             <!--  select  -->
@@ -66,7 +69,7 @@
               v-if="item.valueType === 'select'"
               v-model="queryForm[item.dataIndex]"
               v-bind="item.fieldProps"
-              :placeholder="`请选择${item.title}`"
+              :placeholder="t('qing-xuan-ze-itemtitle', [item.title])"
             >
               <a-option
                 v-for="(value, key) in item.valueEnum"

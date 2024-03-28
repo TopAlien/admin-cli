@@ -1,40 +1,46 @@
 <script setup>
+  import { ref } from 'vue'
+
   const menus = [
     {
       id: '0',
-      title: 'Navigation 1',
+      title: '用户管理',
       icon: 'i-carbon-3d-curve-auto-vessels',
       children: [
         {
           id: '0_0',
-          title: 'Menu 1'
+          title: '权限列表'
         },
         {
           id: '0_1',
-          title: 'Menu 2'
+          title: '人员列表'
         },
         {
           id: '0_2',
-          title: 'Menu 3',
+          title: '会员列表',
           disabled: true
         },
         {
           id: '0_3',
-          title: 'Menu 4',
+          title: '职级列表',
           disabled: true
         },
         {
           id: '0_4',
-          title: 'Menu 5'
+          title: '薪资列表'
         }
       ]
     }
   ]
+
+  const selectedKeys = ref(['0_0'])
 </script>
 <template>
   <a-menu
     showCollapseButton
     class="cus_menu"
+    v-model:selected-keys="selectedKeys"
+    auto-open-selected
   >
     <a-sub-menu
       v-for="menu in menus"

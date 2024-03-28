@@ -1,29 +1,32 @@
 <script setup>
   import { ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
 
+  const { t } = useI18n()
+  
   const fsEnum = {
-    all: { text: '全部', status: 'normal' },
+    all: { text: t('quan-bu'), status: 'normal' },
     open: {
-      text: '未解决',
+      text: t('wei-jie-jue'),
       status: 'danger'
     },
     closed: {
-      text: '已解决',
+      text: t('yi-jie-jue'),
       status: 'success'
     },
     processing: {
-      text: '解决中',
+      text: t('jie-jue-zhong'),
       status: 'processing'
     }
   }
 
   const columns = [
-    { no: '集合编号' },
-    { name: { title: '集合名称', search: true, valueType: 'range-picker' } },
-    { type: { title: '内容体裁', search: true } },
+    { no: t('ji-he-bian-hao') },
+    { name: { title: t('ji-he-ming-cheng'), search: true, valueType: 'range-picker' } },
+    { type: { title: t('nei-rong-ti-cai'), search: true } },
     {
       fs: {
-        title: '筛选方式',
+        title: t('shai-xuan-fang-shi'),
         search: true,
         valueType: 'select',
         initialValue: 'closed',
@@ -34,8 +37,16 @@
     {
       extr: {
         hideInTable: true,
-        title: '测试隐藏',
+        title: t('ce-shi-yin-cang'),
         search: true
+      }
+    },
+    {
+      action: {
+        title: t('cao-zuo'),
+        width: '180px',
+        slotName: 'action',
+        ellipsis: false
       }
     }
   ]
@@ -48,16 +59,16 @@
         resolve([
           {
             id: 1,
-            no: '啊啥的卡上的哈哈',
+            no: t('a-sha-de-ka-shang-de-ha-ha'),
             name: 'ashdasd',
-            type: '图片',
+            type: t('tu-pian'),
             fs: 'all'
           },
           {
             id: 2,
-            no: '啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈啊啥的卡上的哈哈',
+            no: t('a-sha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-haasha-de-ka-shang-de-ha-ha'),
             name: 'ashdasd',
-            type: '图片',
+            type: t('tu-pian-0'),
             fs: 'closed'
           }
         ])
@@ -66,6 +77,16 @@
   }
 
   const actionRef = ref()
+
+  window.addEventListener('storage', (evt) => {
+    if (evt.key === 'reload') {
+      console.log('更新一下')
+    }
+  })
+
+  const handleView = () => {
+    window.open('/postmessage?reload=true')
+  }
 </script>
 
 <template>
@@ -82,10 +103,21 @@
     </template>
 
     <template #extraL>
-      <a-button type="primary">新建</a-button>
+      <a-button type="primary">{{ t('key6') }}</a-button>
     </template>
     <template #extraR>
-      <a-button @click="actionRef.reload()">手动刷新</a-button>
+      <a-button @click="actionRef.reload()">{{ t('key5') }}</a-button>
+    </template>
+
+    <template #action="{ record }">
+      <a-button
+        type="text"
+        @click="handleView"
+      >
+        {{ t('key4') }}
+      </a-button>
+      <a-button type="text">{{ t('key3') }}</a-button>
+      <a-button type="text">{{ t('key2') }}</a-button>
     </template>
   </pro-table>
 </template>
